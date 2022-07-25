@@ -32,6 +32,9 @@
         "publicIpAddressType": {
             "type": "String"
         },
+        "publicIpAddressIP": {
+            "type": "String"
+        },
         "publicIpAddressSku": {
             "type": "String"
         },
@@ -110,7 +113,8 @@
                             "publicIpAddress": {
                                 "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]",
                                 "properties": {
-                                    "deleteOption": "[parameters('pipDeleteOption')]"
+                                    "deleteOption": "[parameters('pipDeleteOption')]",
+                                    "publicIpAddress": "[parameters('publicIpAddressIP')]" // Assigned 10.0.0.5
                                 }
                             }
                         }
@@ -139,7 +143,7 @@
                 "addressSpace": {
                     "addressPrefixes": "[parameters('addressPrefixes')]"
                 },
-                "subnets": "[parameters('subnets')]"
+                "subnets": "[parameters('subnets')]" // Param includes assignment of NSG
             }
         },
         {
@@ -151,7 +155,8 @@
                 "name": "[parameters('publicIpAddressSku')]"
             },
             "properties": {
-                "publicIpAllocationMethod": "[parameters('publicIpAddressType')]"
+                "publicIpAllocationMethod": "[parameters('publicIpAddressType')]",
+                "publicIpAddress": "[parameters('publicIpAddressIP')]" // Assigned 10.0.0.5
             }
         },
         {
