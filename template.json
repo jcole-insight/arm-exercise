@@ -119,10 +119,10 @@
                             }
                         }
                     }
-                ],
-                "networkSecurityGroup": {
-                    "id": "[variables('nsgId')]"
-                }
+                ]
+               // "networkSecurityGroup": {
+               //     "id": "[variables('nsgId')]"
+               // }
             }
         },
         {
@@ -136,6 +136,9 @@
         },
         {
             "type": "Microsoft.Network/virtualNetworks",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]"
+            ],
             "apiVersion": "2020-11-01",
             "name": "[parameters('virtualNetworkName')]",
             "location": "[parameters('location')]",
@@ -143,7 +146,18 @@
                 "addressSpace": {
                     "addressPrefixes": "[parameters('addressPrefixes')]"
                 },
-                "subnets": "[parameters('subnets')]" // Param includes assignment of NSG
+                // "subnets": "[parameters('subnets')]"
+                "subnets": [
+          {
+            "name": "VMSubnet",
+            "properties": {
+              "addressPrefix": "10.0.0.0/24",
+              "networkSecurityGroup": {
+                            "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgid'))]"
+                          }
+            }
+          }
+        ]
             }
         },
         {
