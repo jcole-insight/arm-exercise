@@ -34,7 +34,7 @@
             "value": "VMSubnet"
         },
         "virtualNetworkName": {
-            "value": "VMLabGroup-vnet"
+            "value": "vm-lab01-vnet"
         },
         "addressPrefixes": {
             "value": [
