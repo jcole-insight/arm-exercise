@@ -5,6 +5,9 @@
         "location": {
             "value": "westus3"
         },
+        "VMName": {
+            "value": "vmlab01"
+        },
         "networkInterfaceName": {
             "value": "vm-lab01545"
         },
@@ -34,22 +37,13 @@
             "value": "VMSubnet"
         },
         "virtualNetworkName": {
-            "value": "VMLabGroup-vnet"
+            "value": "vm-lab01-vnet"
         },
-        "addressPrefixes": {
-            "value": [
-                "10.0.0.0/16"
-            ]
+        "vnetAddressPrefix": {
+            "value":"10.0.0.0/16"
         },
-        "subnets": {
-            "value": [
-                {
-                    "name": "VMSubnet",
-                    "properties": {
-                        "addressPrefix": "10.0.0.0/24"
-                    }
-                }
-            ]
+        "subnetAddressPrefix": {
+            "value":"10.0.0.0/24"
         },
         "publicIpAddressName": {
             "value": "vm-lab01-ip"
@@ -60,6 +54,9 @@
         "publicIpAddressSku": {
             "value": "Basic"
         },
+        "privateIpAddressIP": {
+            "value": "10.0.0.5"
+        },
         "pipDeleteOption": {
             "value": "Delete"
         },
@@ -68,9 +65,6 @@
         },
         "virtualMachineComputerName": {
             "value": "vm-lab01"
-        },
-        "virtualMachineRG": {
-            "value": "VMLabGroup"
         },
         "osDiskType": {
             "value": "StandardSSD_LRS"
@@ -81,7 +75,7 @@
         "dataDisks": {
             "value": [
                 {
-                    "lun": 0,
+                    "lun": 1,
                     "createOption": "attach",
                     "deleteOption": "Delete",
                     "caching": "None",
