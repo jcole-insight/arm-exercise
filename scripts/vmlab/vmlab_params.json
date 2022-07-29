@@ -8,12 +8,6 @@
         "VMName": {
             "value": "vmlab01"
         },
-        "networkInterfaceName": {
-            "value": "vm-lab01545"
-        },
-        "networkSecurityGroupName": {
-            "value": "vm-lab01-nsg"
-        },
         "networkSecurityGroupRules": {
             "value": [
                 {
@@ -36,35 +30,17 @@
         "subnetName": {
             "value": "VMSubnet"
         },
-        "virtualNetworkName": {
-            "value": "vm-lab01-vnet"
-        },
-        "vnetAddressPrefix": {
-            "value":"10.0.0.0/16"
-        },
         "subnetAddressPrefix": {
             "value":"10.0.0.0/24"
         },
-        "publicIpAddressName": {
-            "value": "vm-lab01-ip"
-        },
         "publicIpAddressType": {
             "value": "Static"
-        },
-        "publicIpAddressSku": {
-            "value": "Basic"
         },
         "privateIpAddressIP": {
             "value": "10.0.0.5"
         },
         "pipDeleteOption": {
             "value": "Delete"
-        },
-        "virtualMachineName": {
-            "value": "vm-lab01"
-        },
-        "virtualMachineComputerName": {
-            "value": "vm-lab01"
         },
         "osDiskType": {
             "value": "StandardSSD_LRS"
