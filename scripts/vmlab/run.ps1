@@ -1,4 +1,4 @@
-New-AzResourceGroup -Name TestDeployGroup -Location "West US"
+New-AzResourceGroup -Name TestDeployGroup -Location "East US"
 New-AzResourceGroupDeployment `
   -Name TestDeployment `
   -ResourceGroupName TestDeployGroup `
