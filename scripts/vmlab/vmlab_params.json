@@ -3,10 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "value": "westus3"
+            "value": "eastus"
         },
-        "VMName": {
+        "vmName": {
             "value": "vmlab01"
+        },
+        "vmCount": {
+            "value": 2
         },
         "networkSecurityGroupRules": {
             "value": [
@@ -37,46 +40,16 @@
             "value": "Static"
         },
         "privateIpAddressIP": {
-            "value": "10.0.0.5"
+            "value": "10.0.0."
         },
         "pipDeleteOption": {
             "value": "Delete"
         },
-        "osDiskType": {
+        "DiskType": {
             "value": "StandardSSD_LRS"
         },
         "osDiskDeleteOption": {
             "value": "Delete"
-        },
-        "dataDisks": {
-            "value": [
-                {
-                    "lun": 1,
-                    "createOption": "attach",
-                    "deleteOption": "Delete",
-                    "caching": "None",
-                    "writeAcceleratorEnabled": false,
-                    "id": null,
-                    "name": "vm-lab01-datadisk",
-                    "storageAccountType": null,
-                    "diskSizeGB": null,
-                    "diskEncryptionSet": null
-                }
-            ]
-        },
-        "dataDiskResources": {
-            "value": [
-                {
-                    "name": "vm-lab01-datadisk",
-                    "sku": "StandardSSD_LRS",
-                    "properties": {
-                        "diskSizeGB": 100,
-                        "creationData": {
-                            "createOption": "empty"
-                        }
-                    }
-                }
-            ]
         },
         "virtualMachineSize": {
             "value": "Standard_B2s"
