@@ -1,0 +1,7 @@
+vmName = "tflab01"
+location = "East US"
+subnetPrefix = "10.0.0.0/24"
+privateIpAddressIP = "10.0.0.5"
+DiskType = "StandardSSD_LRS"
+adminUsername = "lab-user"
+adminPassword = "LabPassword123"

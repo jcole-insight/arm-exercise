@@ -9,7 +9,11 @@
             "value": "vmlab01"
         },
         "vmCount": {
-            "value": 2
+            "value": [
+                {
+                    
+                }
+            ]
         },
         "networkSecurityGroupRules": {
             "value": [
