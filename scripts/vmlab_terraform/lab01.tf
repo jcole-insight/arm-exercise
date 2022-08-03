@@ -61,6 +61,10 @@ resource "azurerm_network_interface" "LabNIC" {
     private_ip_address = var.privateIpAddressIP
   }
 }
+resource "azurerm_subnet_network_security_group_association" "LabNsgAsc" {
+  subnet_id                 = azurerm_subnet.LabSubnet.id
+  network_security_group_id = azurerm_network_security_group.LabNSG.id
+}
 
 resource "azurerm_windows_virtual_machine" "LabVM" {
   name                = var.vmName
