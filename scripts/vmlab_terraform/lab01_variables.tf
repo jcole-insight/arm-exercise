@@ -1,26 +1,29 @@
-variable "resource_group_name" {
-  description = "name of resource group"
+
+variable "vmName" {
+  description = "Name of VM"
   type = string
 }
-
 variable "location" {
     description = "location of resources"
     type = string
 }
 
-variable "vm_name" {
-  description = "Name of VM"
-  type = string
-}
 
-variable "security_group_rules" {
-  type = string
-}
-
-variable "subnet_prefix" {
+variable "subnetPrefix" {
     type = string
 }
 
-variable "private_ip_address" {
+variable "privateIpAddressIP" {
   type = string
 }
+
+variable "DiskType" {
+            type = string
+        }
+variable "adminPassword" {
+            type = string
+        }
+variable "adminUsername" {
+            type = string
+        }
+        
