@@ -13,52 +13,53 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "LabGroup" {
-  name     = "${var.vmName}Group"
+  name     = var.rgName
   location = var.location
 }
 
 resource "azurerm_network_security_group" "LabNSG" {
-  name                = "${var.vmName}-nsg"
+  name                = var.nsgName
   resource_group_name = azurerm_resource_group.LabGroup.name
   location            = var.location
   security_rule {
-      name                       = "rdp"
-      priority                   = 100
-      direction                  = "Inbound"
-      access                     = "Allow"
-      protocol                   = "Tcp"
-      source_port_range          = "*"
-      destination_port_range    = "3389"
-      source_address_prefix      = "VirtualNetwork"
-      destination_address_prefix = "*"
+    name                       = "rdp"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "3389"
+    source_address_prefix      = "VirtualNetwork"
+    destination_address_prefix = "*"
   }
 }
 
 resource "azurerm_virtual_network" "LabVNet" {
-  name                = "${var.vmName}-vnet"
+  name                = "${var.vnetName}"
   resource_group_name = azurerm_resource_group.LabGroup.name
   location            = var.location
   depends_on = [
     azurerm_network_security_group.LabNSG
   ]
-  address_space       = ["10.0.0.0/16"]
+  address_space = ["10.0.0.0/16"]
 }
 resource "azurerm_subnet" "LabSubnet" {
-  name                 = "${var.vmName}-subnet"
+  name                 = var.subnetName
   resource_group_name  = azurerm_resource_group.LabGroup.name
   virtual_network_name = azurerm_virtual_network.LabVNet.name
   address_prefixes     = [var.subnetPrefix]
 }
 resource "azurerm_network_interface" "LabNIC" {
-  name                = "${var.vmName}-nic"
+  for_each            = var.vm
+  name                = "${each.value.name}-nic"
   resource_group_name = azurerm_resource_group.LabGroup.name
   location            = var.location
 
   ip_configuration {
-    name                          = "${var.vmName}-ipconfig1"
+    name                          = "ipconfig-${each.key}"
     subnet_id                     = azurerm_subnet.LabSubnet.id
     private_ip_address_allocation = "Static"
-    private_ip_address = var.privateIpAddressIP
+    private_ip_address            = each.value.privateIP
   }
 }
 resource "azurerm_subnet_network_security_group_association" "LabNsgAsc" {
@@ -67,18 +68,21 @@ resource "azurerm_subnet_network_security_group_association" "LabNsgAsc" {
 }
 
 resource "azurerm_windows_virtual_machine" "LabVM" {
-  name                = var.vmName
+  for_each            = var.vm
+  name                = each.value.name
   resource_group_name = azurerm_resource_group.LabGroup.name
   location            = var.location
   size                = "Standard_B2s"
   admin_username      = var.adminUsername
   admin_password      = var.adminPassword
   network_interface_ids = [
-    azurerm_network_interface.LabNIC.id,
+    azurerm_network_interface.LabNIC[each.key].id,
   ]
 
   os_disk {
+    name                 = "${each.key}-osdisk"
     caching              = "ReadWrite"
+    create_option        = "FromImage"
     storage_account_type = "StandardSSD_LRS"
   }
 
