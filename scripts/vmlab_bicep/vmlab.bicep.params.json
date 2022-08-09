@@ -1,0 +1,81 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "eastus"
+        },
+        "vmName": {
+            "value": [
+                {
+                    "name": "labvm1",
+                    "privateIPAddress": "10.0.0.5"
+                },
+                {
+                    "name": "labvm2",
+                    "privateIPAddress": "10.0.0.6"
+                }
+            ]
+        },
+        "nsgName": {
+            "value": "lab-nsg"
+        },
+        "vnetName": {
+            "value": "lab-vnet"
+        },
+        "networkSecurityGroupRules": {
+            "value": [
+                {
+                    "name": "default-allow-rdp",
+                    "properties": {
+                        "priority": 100,
+                        "protocol": "TCP",
+                        "access": "Allow",
+                        "direction": "Inbound",
+                        "sourceApplicationSecurityGroups": [],
+                        "destinationApplicationSecurityGroups": [],
+                        "sourceAddressPrefix": "*",
+                        "sourcePortRange": "*",
+                        "destinationAddressPrefix": "*",
+                        "destinationPortRange": "3389"
+                    }
+                }
+            ]
+        },
+        "subnetName": {
+            "value": "VMSubnet"
+        },
+        "subnetAddressPrefix": {
+            "value":"10.0.0.0/24"
+        },
+        "publicIpAddressType": {
+            "value": "Static"
+        },
+        "pipDeleteOption": {
+            "value": "Delete"
+        },
+        "DiskType": {
+            "value": "StandardSSD_LRS"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_B2s"
+        },
+        "nicDeleteOption": {
+            "value": "Delete"
+        },
+        "adminUsername": {
+            "value": "lab-user"
+        },
+        "adminPassword": {
+            "value": "LabPass123"
+        },
+        "patchMode": {
+            "value": "AutomaticByOS"
+        },
+        "enableHotpatching": {
+            "value": false
+        }
+        
+        
+    }
+}

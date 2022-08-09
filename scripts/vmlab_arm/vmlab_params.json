@@ -6,21 +6,29 @@
             "value": "eastus"
         },
         "vmName": {
-            "value": "vmlab01"
-        },
-        "vmCount": {
             "value": [
                 {
-                    
+                    "name": "labvm1",
+                    "privateIPAddress": "10.0.0.5"
+                },
+                {
+                    "name": "labvm2",
+                    "privateIPAddress": "10.0.0.6"
                 }
             ]
+        },
+        "nsgName": {
+            "value": "lab-nsg"
+        },
+        "vnetName": {
+            "value": "lab-vnet"
         },
         "networkSecurityGroupRules": {
             "value": [
                 {
                     "name": "default-allow-rdp",
                     "properties": {
-                        "priority": 1000,
+                        "priority": 100,
                         "protocol": "TCP",
                         "access": "Allow",
                         "direction": "Inbound",
@@ -43,17 +51,11 @@
         "publicIpAddressType": {
             "value": "Static"
         },
-        "privateIpAddressIP": {
-            "value": "10.0.0."
-        },
         "pipDeleteOption": {
             "value": "Delete"
         },
         "DiskType": {
             "value": "StandardSSD_LRS"
-        },
-        "osDiskDeleteOption": {
-            "value": "Delete"
         },
         "virtualMachineSize": {
             "value": "Standard_B2s"
@@ -65,12 +67,7 @@
             "value": "lab-user"
         },
         "adminPassword": {
-            "reference": {
-                "keyVault": {
-                  "id": "/subscriptions/aeda07d9-84a0-4974-b345-dfbe9df0dad4/resourceGroups/VMLabGroup/providers/Microsoft.KeyVault/vaults/vmlab-pass"
-                },
-                "secretName": "vm-lab01"
-              }
+            "value": "LabPass123"
         },
         "patchMode": {
             "value": "AutomaticByOS"
