@@ -82,7 +82,7 @@ resource "azurerm_windows_virtual_machine" "LabVM" {
   os_disk {
     name                 = "${each.key}-osdisk"
     caching              = "ReadWrite"
-    create_option        = "FromImage"
+    # create_option        = "Empty"
     disk_size_gb         = 127
     storage_account_type = "StandardSSD_LRS"
   }
@@ -105,8 +105,9 @@ resource "azurerm_managed_disk" "LabDataDisk" {
 }
 
 resource "azurerm_virtual_machine_data_disk_attachment" "LabDiskAttach" {
-  managed_disk_id    = azurerm_managed_disk.example.id
-  virtual_machine_id = azurerm_virtual_machine.example.id
-  lun                = "10"
+  for_each           = var.vm
+  managed_disk_id    = azurerm_managed_disk.LabDataDisk[each.key].id
+  virtual_machine_id = azurerm_windows_virtual_machine.LabVM[each.key].id
+  lun                = "0"
   caching            = "ReadWrite"
 }
