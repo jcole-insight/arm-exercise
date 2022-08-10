@@ -83,6 +83,7 @@ resource "azurerm_windows_virtual_machine" "LabVM" {
     name                 = "${each.key}-osdisk"
     caching              = "ReadWrite"
     create_option        = "FromImage"
+    disk_size_gb         = 127
     storage_account_type = "StandardSSD_LRS"
   }
 
@@ -92,4 +93,20 @@ resource "azurerm_windows_virtual_machine" "LabVM" {
     sku       = "2019-datacenter-gensecond"
     version   = "latest"
   }
+}
+resource "azurerm_managed_disk" "LabDataDisk" {
+  for_each             = var.vm
+  name                 = "${each.value.name}-disk1"
+  location             = azurerm_resource_group.LabGroup.location
+  resource_group_name  = azurerm_resource_group.LabGroup.name
+  storage_account_type = "StandardSSD_LRS"
+  create_option        = "Empty"
+  disk_size_gb         = 100
+}
+
+resource "azurerm_virtual_machine_data_disk_attachment" "LabDiskAttach" {
+  managed_disk_id    = azurerm_managed_disk.example.id
+  virtual_machine_id = azurerm_virtual_machine.example.id
+  lun                = "10"
+  caching            = "ReadWrite"
 }
