@@ -1,24 +1,22 @@
-variables:
-  tfVarFile: lab01.auto.tfvars
-  dockerImage: docker.mirror.hashicorp.services/hashicorp/terraform:light
-
+version: 2
 
 jobs:
   plan-apply:
     working_directory: /tmp/project
     docker:
-      - image: $(dockerImage)
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps:
       - checkout
       - run:
           name: terraform init & plan
           command: |
             terraform init -input=false
-            terraform plan -out tfapply -var-file $(tfVarFile)
+            terraform plan -out tfapply -var-file ./scripts/vmlab_terraform/lab01.auto.tfvars
       - persist_to_workspace:
           root: .
           paths:
             - .
+
   apply:
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
@@ -32,21 +30,23 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - .   
+            - .
+
   plan-destroy:
     docker:
-    - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps:
-    - attach_workspace:
-        at: .
-    - run:
-        name: terraform create destroy plan
-        command: |
-          terraform plan -destroy -out tfdestroy -var-file terraform.tfvars
-    - persist_to_workspace:
-        root: .
-        paths:
-          - .
+      - attach_workspace:
+          at: .
+      - run:
+          name: terraform create destroy plan
+          command: |
+            terraform plan -destroy -out tfdestroy -var-file ./scripts/vmlab_terraform/lab01.auto.tfvars
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
   destroy:
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
@@ -56,7 +56,7 @@ jobs:
       - run:
           name: terraform destroy
           command: |
-            terraform apply -auto-approve tfdestroy      
+            terraform apply -auto-approve tfdestroy
 workflows:
   version: 2
   plan_approve_apply:
@@ -78,4 +78,4 @@ workflows:
             - plan-destroy
       - destroy:
           requires:
-            - hold-destroy                   
+            - hold-destroy
