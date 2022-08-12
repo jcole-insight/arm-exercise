@@ -23,16 +23,19 @@ stages:
             displayName: init
             inputs:
               provider: 'azurerm'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/scripts/vmlab_terraform'
               command: 'init'
               backendServiceArm: 'JcoleDevops'
               backendAzureRmResourceGroupName: '$(bkstrgrg)'
               backendAzureRmStorageAccountName: '$(bkstrg)'
               backendAzureRmContainerName: '$(bkcontainer)'
               backendAzureRmKey: '$(bkstrgkey)'
+          
           - task: TerraformTaskV3@3
             displayName: validate
             inputs:
               provider: 'azurerm'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/scripts/vmlab_terraform'
               command: 'validate'
   - stage: tfdeploy
     condition: succeeded('tfvalidate')
@@ -48,6 +51,7 @@ stages:
             displayName: init
             inputs:
               provider: 'azurerm'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/scripts/vmlab_terraform'
               command: 'init'
               backendServiceArm: 'JcoleDevops'
               backendAzureRmResourceGroupName: '$(bkstrgrg)'
@@ -58,11 +62,13 @@ stages:
             displayName: plan
             inputs:
               provider: 'azurerm'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/scripts/vmlab_terraform'
               command: 'plan'
               environmentServiceNameAzureRM: 'JcoleDevops'
           - task: TerraformTaskV3@3
             displayName: apply
             inputs:
               provider: 'azurerm'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/scripts/vmlab_terraform'
               command: 'apply'
               environmentServiceNameAzureRM: 'JcoleDevops'
