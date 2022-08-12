@@ -5,6 +5,12 @@ terraform {
       version = "3.15.1"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "tfstateRG01"
+    storage_account_name = "tfstate01684258857"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+}
 }
 
 provider "azurerm" {
@@ -82,7 +88,6 @@ resource "azurerm_windows_virtual_machine" "LabVM" {
   os_disk {
     name                 = "${each.key}-osdisk"
     caching              = "ReadWrite"
-    # create_option        = "Empty"
     disk_size_gb         = 127
     storage_account_type = "StandardSSD_LRS"
   }
