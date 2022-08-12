@@ -1,0 +1,74 @@
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  bkstrgrg: 'tfstateRG01'
+  bkstrg: 'tfstate01684258857'
+  bkcontainer: 'tfstate'
+  bkstrgkey: 'terraform.tfstate'
+
+stages:
+  - stage: tfvalidate
+    jobs:
+      - job: validate
+        continueOnError: false
+        steps:
+          - task: TerraformInstaller@0
+            displayName: tfinstall
+            inputs:
+              terraformVersion: 'latest'
+          - task: TerraformTaskV3@3
+            displayName: init
+            inputs:
+              provider: 'azurerm'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/scripts/vmlab_terraform'
+              command: 'init'
+              backendServiceArm: 'JcoleDevops'
+              backendAzureRmResourceGroupName: '$(bkstrgrg)'
+              backendAzureRmStorageAccountName: '$(bkstrg)'
+              backendAzureRmContainerName: '$(bkcontainer)'
+              backendAzureRmKey: '$(bkstrgkey)'
+          
+          - task: TerraformTaskV3@3
+            displayName: validate
+            inputs:
+              provider: 'azurerm'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/scripts/vmlab_terraform'
+              command: 'validate'
+  - stage: tfdeploy
+    condition: succeeded('tfvalidate')
+    dependsOn: tfvalidate
+    jobs:
+      - job: apply
+        steps:
+          - task: TerraformInstaller@0
+            displayName: tfinstall
+            inputs:
+              terraformVersion: 'latest'
+          - task: TerraformTaskV3@3
+            displayName: init
+            inputs:
+              provider: 'azurerm'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/scripts/vmlab_terraform'
+              command: 'init'
+              backendServiceArm: 'JcoleDevops'
+              backendAzureRmResourceGroupName: '$(bkstrgrg)'
+              backendAzureRmStorageAccountName: '$(bkstrg)'
+              backendAzureRmContainerName: '$(bkcontainer)'
+              backendAzureRmKey: '$(bkstrgkey)'
+          - task: TerraformTaskV3@3
+            displayName: plan
+            inputs:
+              provider: 'azurerm'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/scripts/vmlab_terraform'
+              command: 'plan'
+              environmentServiceNameAzureRM: 'JcoleDevops'
+          - task: TerraformTaskV3@3
+            displayName: apply
+            inputs:
+              provider: 'azurerm'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/scripts/vmlab_terraform'
+              command: 'apply'
+              environmentServiceNameAzureRM: 'JcoleDevops'
