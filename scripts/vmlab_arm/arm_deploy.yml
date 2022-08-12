@@ -5,9 +5,9 @@ trigger: none
 pr: none
  
 stages :        
-  - stage: arm_template_deploy
+  - stage: armtemplatedeploy
     jobs:
-      - job: arm_template_deploy
+      - job: deploy
         steps:
               - checkout: self
  
@@ -22,4 +22,4 @@ stages :
                   templateLocation: 'Linked artifact'
                   csmFile: '$(System.DefaultWorkingDirectory)/scripts/vmlab_arm/vmlab.json'
                   csmParametersFile: '$(System.DefaultWorkingDirectory)/scripts/vmlab_arm/vmlab_params.json'
-                  deploymentMode: 'Incremental'
+                  deploymentMode: 'Incremental'            
