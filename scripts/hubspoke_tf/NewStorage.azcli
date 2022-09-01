@@ -1,5 +1,5 @@
-$RESOURCE_GROUP_NAME='tfstateRG01'
-$STORAGE_ACCOUNT_NAME="tfstate01$(get-random)"
+$RESOURCE_GROUP_NAME='tfstateRG02'
+$STORAGE_ACCOUNT_NAME="tfstate02$(get-random)"
 $CONTAINER_NAME='tfstate'
 
 # Create resource group

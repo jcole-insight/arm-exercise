@@ -1,0 +1,25 @@
+name: $(BuildDefinitionName)_$(date:yyyyMMdd)$(rev:.r)
+ 
+trigger: none
+ 
+pr: none
+ 
+stages :        
+  - stage: armtemplatedeploy
+    jobs:
+      - job: deploy
+        steps:
+              - checkout: self
+ 
+              - task: AzureResourceManagerTemplateDeployment@3
+                inputs:
+                  deploymentScope: 'Resource Group'
+                  azureResourceManagerConnection: 'JcoleDevops'
+                  subscriptionId: 'aeda07d9-84a0-4974-b345-dfbe9df0dad4'
+                  action: 'Create Or Update Resource Group'
+                  resourceGroupName: 'VMLabGroup'
+                  location: 'eastus2'
+                  templateLocation: 'Linked artifact'
+                  csmFile: '$(System.DefaultWorkingDirectory)/scripts/vmlab_arm/vmlab.json'
+                  csmParametersFile: '$(System.DefaultWorkingDirectory)/scripts/vmlab_arm/vmlab_params.json'
+                  deploymentMode: 'Incremental'            
