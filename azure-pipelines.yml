@@ -23,5 +23,6 @@ jobs:
       terraform init && terraform plan && terraform apply -auto-approve
     env:
       ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+      ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
     displayName: deploy resources
     workingDirectory: scripts/hubspoke_tf
