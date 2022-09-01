@@ -1,0 +1,27 @@
+trigger: 
+  branches:
+    include: 
+    - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+- group: azure-sp-details
+
+jobs:
+- job: infrastructure
+  displayName: deploy infrastructure
+
+  steps:
+  - script: |
+      az login --service-principal \
+      -u $(ARM_CLIENT_ID) -p $(ARM_CLIENT_SECRET) --tenant $(ARM_TENANT_ID)
+    displayName: connect to azure
+  
+  - script: |
+      terraform init && terraform plan && terraform apply -auto-approve
+    env:
+      ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+    displayName: deploy resources
+    workingDirectory: scripts/hubspoke_tf
